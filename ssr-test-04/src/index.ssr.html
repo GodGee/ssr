@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>服务端渲染</title>
+  </head>
+  <body>
+    <!--vue-ssr-outlet-->
+    <span>
+      vue-ssr-outlet 的作用是作为一个占位符，后续通过vue-server-renderer插件，将服务器解析出的组件html字符串插入到这里。 src="<%=
+      htmlWebpackPlugin.options.files.js %>"
+      是为了将webpack通过webpack.client.config.js打包出的文件放到这里（这里是为了简单演示，后续会有别的办法来做这个事情）。
+      因为服务端吐出来的就是一个html字符串，后续的Vue相关的响应式、事件响应等等，都需要浏览器端来接管，所以就需要将为浏览器端渲染打包的文件在这里引入。
+      用官方的词来说，叫客户端激活（client-side hydration）。 所谓客户端激活，指的是 Vue 在浏览器端接管由服务端发送的静态 HTML，使其变为由 Vue
+      管理的动态 DOM 的过程。
+    </span>
+    <script type="text/javascript" src="<%= htmlWebpackPlugin.options.files.js %>"></script>
+  </body>
+</html>
