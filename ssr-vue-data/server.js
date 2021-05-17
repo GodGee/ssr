@@ -1,18 +1,17 @@
 const Vue = require("vue");
 const exp = require("express");
 const express = exp();
+// 创建服务端渲染器
 const renderer = require("vue-server-renderer").createRenderer();
+// 服务端渲染的bundle文件
 const createApp = require("./dist/bundle.server.js")["default"];
 
-// //创建vue实例
-// const app = new Vue({
-//   template: '<div>Hello gg</div>',
-// })
-
+// 设置静态资源目录
 express.use("/", exp.static(__dirname + "/dist"));
+// 客户端渲染的bundle文件
 const clientBundleFileUrl = "/bundle.client.js";
 
-//服务端渲染的核心在于 通过vue-server-renderer插件的renderToString() 方法，将Vue实例转换成字符串插入到html文件中
+// 服务端渲染的核心在于 通过vue-server-renderer插件的renderToString() 方法，将Vue实例转换成字符串插入到html文件中
 express.get("*", (req, res) => {
   const context = { url: req.url };
   console.log("context: ", createApp(context));
