@@ -25,7 +25,11 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: "vue-loader",
-        options: vueLoaderConfig
+        options: {
+          compilerOptions: {
+            preserveWhitespace: false //如果设置为 false，模版中 HTML 标签之间的空格将会被忽略。
+          }
+        }
       },
       {
         test: /\.js$/,
@@ -39,4 +43,3 @@ module.exports = {
     ]
   }
 };
-
