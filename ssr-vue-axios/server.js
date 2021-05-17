@@ -11,11 +11,17 @@ express.use("/", exp.static(__dirname + "/dist"));
 // 客户端渲染的bundle文件
 const clientBundleFileUrl = "/bundle.client.js";
 
+express.get("/api/HomeInfo", (req, res) => {
+  res.send("SSR发送请求了");
+});
+
 // 服务端渲染的核心在于 通过vue-server-renderer插件的renderToString() 方法，将Vue实例转换成字符串插入到html文件中
 express.get("*", (req, res) => {
   const context = { url: req.url };
-  console.log("context: ", createApp(context));
+  console.log('context: ', context);
   createApp(context).then(app => {
+    let state = JSON.stringify(context.state)
+    console.log('context.state: ', context.state);
     renderer.renderToString(app, (err, html) => {
       if (err) {
         return res.state(500).end("运行错误");
@@ -27,6 +33,7 @@ express.get("*", (req, res) => {
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <meta http-equiv="X-UA-Compatible" content="ie=edge" />
           <title>服务器渲染</title>
+          <script>window.__INITIAL_STATE__=${state}</script>
           <script src="${clientBundleFileUrl}"></script>
         </head>
         <body>

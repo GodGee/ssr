@@ -3,6 +3,7 @@
 import Vue from "vue";
 import App from "./App";
 import { createRouter } from "./router";
+import { createStore } from "./store";
 
 Vue.config.productionTip = false;
 
@@ -17,8 +18,9 @@ Vue.config.productionTip = false;
 //编写通用的代码
 export function createApp() {
   const router = createRouter();
-
+  const store = createStore();
   const app = new Vue({
+    store,
     router,
     components: { App },
     template: "<App/>"
